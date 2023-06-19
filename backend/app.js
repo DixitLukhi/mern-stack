@@ -1,17 +1,38 @@
-const express = require("express");
+require("dotenv").config();
 
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const app = express();
 
-const port = 8000;
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user");
 
-app.get("/", (req, res) => {
-    return res.send("Home Page.");
-});
+// DB connnection
+mongoose
+  .connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    // useCreateIndex: true,
+  })
+  .then(() => console.log("DB CONNECTED."))
+  .catch((err) => console.log("Can't connect", err));
 
-app.get("/about", (req, res) => {
-    return res.send("Dix Lukhi.");
-});
+// Middlewares
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(cors());
 
+// Routes
+app.use("/api", authRoutes);
+app.use("/api", userRoutes);
+
+//  PORT
+const port = process.env.PORT || 8000;
+
+//  Starting a server
 app.listen(port, () => {
-    return console.log(`Connecting to server at port ${port}`);
+  return console.log(`App is running at port ${port}`);
 });
