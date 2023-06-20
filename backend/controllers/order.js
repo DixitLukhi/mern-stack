@@ -53,7 +53,7 @@ exports.getOrderStatus = (req, res) => {
 
 exports.updateStatus = (req, res) => {
   Order.updateOne(
-    {_id: req.body.orderId, },
+    { _id: req.body.orderId },
     { $set: { status: req.body.status } }
   )
     .then((order) => {

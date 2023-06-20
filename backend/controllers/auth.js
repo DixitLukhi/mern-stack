@@ -65,7 +65,9 @@ exports.signin = (req, res) => {
 
       return res.json({ token, user: { _id, name, email, mobile, role } });
     })
-    .catch((error) => res.status(400).json({ error: "Sonething went wrong!!" }));
+    .catch((error) =>
+      res.status(400).json({ error: "Sonething went wrong!!" })
+    );
 };
 
 exports.signout = (req, res) => {
