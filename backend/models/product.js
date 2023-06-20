@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
-
-const productScema = new mongoose.Schema(
+const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -37,10 +36,10 @@ const productScema = new mongoose.Schema(
     photo: {
       data: Buffer,
       contentType: String,
-      required: true,
+      // required: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Product", productScema);
+module.exports = mongoose.model("Product", productSchema);
