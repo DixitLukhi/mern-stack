@@ -42,3 +42,16 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
   return console.log(`App is running at port ${port}`);
 });
+
+// const accountSid = 'AC9dd0a7b3813b7725d1359f9f79b3610e';
+// const authToken = '[AuthToken]';
+// const client = require('twilio')(accountSid, authToken);
+
+// client.messages
+//     .create({
+//         body: 'Otp',
+//         from: '+15418978833',
+//         to: '+919328126138'
+//     })
+//     .then(message => console.log(message.sid))
+//     .done();

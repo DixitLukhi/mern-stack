@@ -2,8 +2,13 @@ const { validationResult } = require("express-validator");
 const User = require("../models/user");
 var jwt = require("jsonwebtoken");
 var { expressjwt } = require("express-jwt");
+// const accountSid = process.env.OTPSID;
+// const authToken = process.env.OTPAUTH;
+// const client = require('twilio')(accountSid, authToken);
 
-exports.signup = (req, res) => {
+let OTP = "";
+
+exports.signup = async (req, res) => {
   const user = new User(req.body);
 
   const errors = validationResult(req);
@@ -13,7 +18,7 @@ exports.signup = (req, res) => {
       error: errors.array()[0].msg,
     });
   }
-  user
+  await user
     .save()
     .then((user) =>
       res.json({
@@ -27,7 +32,29 @@ exports.signup = (req, res) => {
         error: "Not able to signup user",
       });
     });
+
+  let digits = "0123456789";
+  for (let i = 0; i < 4; i++) {
+    OTP += digits[Math.floor(Math.random() * 10)];
+  }
+
+  let otpTo = "+91"+user.mobile;
+  console.log(otpTo);
+  // await client.messages.create({
+  //   body: `Hi, please verify your otp ${OTP}.`, from: '+15418978833', to: otpTo
+  // })
+  //   .then(message => console.log(message.sid, "res : ", message))
+
 };
+
+exports.verifyOtp = (req, res) => {
+  const { otp } = req.body;
+  if ( otp !== OTP) {
+    return res.status(400).json({error : "wrong otp."});
+  } else {
+    return res.status(200).json({ message : "OTP verified."})
+  }
+}
 
 exports.signin = (req, res) => {
   const errors = validationResult(req);
