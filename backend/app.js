@@ -14,6 +14,8 @@ const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
 
 // DB connnection
+mongoose.set('runValidators', true);
+
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,

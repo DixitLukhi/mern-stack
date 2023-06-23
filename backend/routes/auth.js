@@ -4,12 +4,18 @@ const { signout, signup, signin, isSignedIn, verifyOtp } = require("../controlle
 const { check } = require("express-validator");
 
 const signUpValidation = [
-  check("name")
+  check("first_name")
     .notEmpty()
-    .withMessage("Name is required")
+    .withMessage("First name is required")
     .trim()
     .isLength({ max: 40 })
-    .withMessage("Name should be less than 40 char"),
+    .withMessage("First name should be less than 40 character"),
+  check("last_name")
+    .notEmpty()
+    .withMessage("Last name is required")
+    .trim()
+    .isLength({ max: 40 })
+    .withMessage("Last name should be less than 40 character"),
   check("email")
     .notEmpty()
     .withMessage("Email is required")
@@ -22,12 +28,12 @@ const signUpValidation = [
     .trim()
     .isMobilePhone()
     .withMessage("Mobile no is not correct"),
-  check("pass")
+  check("password")
     .notEmpty()
     .withMessage("Password is required")
     .trim()
     .isLength({ min: 3 })
-    .withMessage("Password should contain atleast 3 char"),
+    .withMessage("Password should contain at least 3 character"),
 ];
 
 const signInValidation = [
@@ -37,7 +43,12 @@ const signInValidation = [
     .trim()
     .isMobilePhone()
     .withMessage("Mobile no is not correct"),
-  check("pass").notEmpty().withMessage("Password is required").trim(),
+  check("password")
+    .notEmpty()
+    .withMessage("Password is required")
+    .trim()
+    .isLength({ min: 3 })
+    .withMessage("Password should contain at least 3 character"),
 ];
 
 router.post("/signup", signUpValidation, signup);
